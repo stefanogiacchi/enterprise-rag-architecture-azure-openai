@@ -28,19 +28,22 @@ The main goal is to provide an **enterprise-ready reference architecture** for l
 ## 🧠 Architecture Diagram (High-Level Flow)
 
 This shows the secure path for an AI query.
-
-$$
-[User] \xrightarrow{\text{Auth}} [Entra ID] \xrightarrow{\text{API Call}} [API Backend Python] \xrightarrow{\text{Process}} [RAG Engine]
-$$
-
-$$
-\text{RAG Engine} \begin{cases}
-    \xrightarrow{\text{Retrieve}} [Vector Search: Cognitive Search] \\
-    \xrightarrow{\text{Generate}} [Azure OpenAI GPT-4/5] \\
-    \xrightarrow{\text{Monitor}} [Logging + Monitoring + Security]
-\end{cases}
-$$
-
+```mermaid
+graph TD
+    A[User] --> B(Entra ID: Auth);
+    B --> C[API Backend Python];
+    C --> D[RAG Engine];
+    
+    % RAG Engine interacts with key services
+    D --> E[Vector Search: Cognitive Search];
+    D --> F[Azure OpenAI GPT-4/5: Generation];
+    
+    % Logging/Monitoring is a parallel activity
+    C --> G(Logging + Monitoring + Security);
+    D --> G;
+    E --> G;
+    F --> G;
+````
 ---
 
 ## 🔥 Features
